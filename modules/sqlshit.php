@@ -1,0 +1,108 @@
+<?php
+
+/*THIS IS THE STANDARD SQL CRAP
+    function standardSQL(){
+        
+        global $PDO;
+        $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+        $sql = "SELECT * FROM paitpad";
+       
+        foreach ($pdo->query($sql) as $row) {
+            echo $row['id']."<br />";
+            echo $row['content']."<br />";
+            echo $row['date']."<br /><br />";
+            
+        }
+        
+    }
+*/
+
+
+    function askSQL($string){//Look for content that contains the $string in it
+        if (!$_SESSION['admin']) {
+            error('Admin=0');
+        }
+        global $PDO;
+        $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+        $sql = "SELECT * FROM paitpad_docs";
+        $i = 0;
+        foreach ($pdo->query($sql) as $row) {
+            $i++;
+            if (strpos(strtolower(' '.$row['content']),strtolower(trim($string))) OR strpos(strtolower(' '.$row['title']),strtolower(trim($string))) OR strpos(strtolower(' '.$row['id']),strtolower(trim($string))) OR strpos(strtolower(' '.$row['username']),strtolower(trim($string)))){
+                if ($row['admin'] == 1) {
+                    if ($_SESSION['admin'] == 1) {
+                        echo '<div class="result">';
+                        echo '<div class="title"><a href="?id=' . $row['id'].'">['.$row['id'].'] '.$row['title'].'</a></div>';
+                        //Trim the string to a length of 200
+                        if (strlen($row['content']) > 200){
+                            $offset = (200 - 3) - strlen($row['content']);
+                            $row['content'] = substr($row['content'], 0, strrpos($row['content'], ' ', $offset)) . '...';
+                        }
+                        echo $row['content'] .'<br />';
+                        echo  $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
+                        echo  $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
+                        echo  '['.$row['username'].']<br /></div>';
+                    }
+                } else {
+                    echo '<div class="result">';
+                    echo '<div class="title"><a href="?id=' . $row['id'].'">['.$row['id'].'] '.$row['title'].'</a></div>';
+                    //Trim the string to a length of 200
+                    if (strlen($row['content']) > 200){
+                        $offset = (200 - 3) - strlen($row['content']);
+                        $row['content'] = substr($row['content'], 0, strrpos($row['content'], ' ', $offset)) . '...';
+                    }
+                    echo $row['content'] .'<br />';
+                    echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
+                    echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
+                    echo '['.$row['username'].']<br /></div>';
+                }
+            }
+            
+        }
+        
+    }
+    
+    function getSQL($id){
+        // do yu no da wey bradda?
+        global $PDO;
+        $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+        $sql = "SELECT * FROM paitpad_docs where id=".htmlspecialchars($id);
+        foreach ($pdo->query($sql) as $row) {
+                echo '<div class="document"><p class="title">'.$row['title'].'</p><br>';
+                echo $row['content'].'<hr class="hr">';
+                echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
+                echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
+                echo '['.$row['username'].']<br /></div>';
+        }
+        
+    }
+    
+    function putSQL($content,$title,$admin){
+        global $PDO;
+        try {
+            $conn = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+            
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = 'INSERT INTO paitpad_docs (username,content,title,admin) VALUES ("'.htmlspecialchars($_SESSION['username']).'","'.$content.'","'.$title.'",'.$admin.')';
+
+            $conn->exec($sql);
+            return  $GLOBALS['OVERLAY_SAVED'];
+        }catch(PDOException $e){
+            return  $GLOBALS['OVERLAY_ERROR_WHILE_SAVING'];
+        }
+    }
+    function delSQL($id){
+        global $PDO;
+        try {
+            $conn = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+            
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = 'DELETE FROM paitpad_docs WHERE id="'.htmlspecialchars($id).'"';
+
+            $conn->exec($sql);
+            return  $GLOBALS['OVERLAY_DELETED'];
+        }catch(PDOException $e){
+            return  $GLOBALS['OVERLAY_ERROR_WHILE_DELETING'];
+        }
+    }
+    

@@ -1,0 +1,12 @@
+==ErrorCatalog==
+This is a list of all possible Errors dropped BY paitpad.
+
+0x001 : No permissions to read that document.
+0x002 : No permissions to delete that document.
+
+
+
+
+
+1x001 : $_REQUEST['admin'] was probably manipulated.
+1x002 : $_REQUEST['del'] was probably manipulated.

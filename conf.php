@@ -20,9 +20,22 @@ $GLOBALS['WEBSITE_LANGUAGE'] = 'english';
 $GLOBALS['WEBSITE_STYLESHEET'] = 'styles/paitpad.css';
 $GLOBALS['WEBSITE_PUBLIC'] = false;
 
+//  $GLOBALS['WEBSITE_ERRORFACE'] = '༼ つ ◕_◕ ༽つ';
+//  $GLOBALS['WEBSITE_ERRORFACE'] = '┻━┻ ︵ヽ(`Д´)ﾉ︵ ┻━┻';
+//  $GLOBALS['WEBSITE_ERRORFACE'] = '(≖︿≖✿)';
+//  $GLOBALS['WEBSITE_ERRORFACE'] = '(ﾉಥ益ಥ）ﾉ ┻━┻';
+//  $GLOBALS['WEBSITE_ERRORFACE'] = '¯\_(ツ)_/¯';
+    $GLOBALS['WEBSITE_ERRORFACE'] = '(✖﹏✖)';
+//  $GLOBALS['WEBSITE_ERRORFACE'] = 'ಥ⌣ಥ';
+//  $GLOBALS['WEBSITE_ERRORFACE'] = 'ლ(́◉◞౪◟◉‵ლ)';
+//  $GLOBALS['WEBSITE_ERRORFACE'] = 'щ(ಠ益ಠщ)';
+
 //META CONFIG
 $GLOBALS['META_AUTHOR'] = 'PaitPad';
 $GLOBALS['META_PUBLISHER'] = 'PaitPad';
 $GLOBALS['META_COPYRIGHT'] = 'PaitPad';
 $GLOBALS['META_DESCRIPTION'] = 'PaitPad';
+
+//SECURITY CONFIG
+$GLOBALS['SECURITY_ONLYADMINCANDELETE'] = false;
 

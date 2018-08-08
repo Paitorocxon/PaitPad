@@ -40,15 +40,19 @@
         return '<br><br><br> <div class="window"><div class="title">'.$GLOBALS['BUTTON_LOGIN'].'</div><form method="POST"><input type="text" id="username" name="username" placeholder="'.$GLOBALS['OVERLAY_USERNAME'].'"/><br><input type="password" id="password" name="password" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><br><input type="submit" value="'.$GLOBALS['BUTTON_LOGIN'].'"></form></div>            <br><br><br>              <div class="window"><div class="title">'.$GLOBALS['BUTTON_REGISTER'].'</div><form method="POST"><input type="text" id="username" name="username" placeholder="'.$GLOBALS['OVERLAY_USERNAME'].'"/><br><input type="email" name="email" id="email" /> <br><input type="password" id="password" name="password" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><input type="password" id="passwordconf" name="passwordconf" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><br><input type="submit" id="sub" name="sub" value="'.$GLOBALS['BUTTON_REGISTER'].'"></form></div>';
     }
     function menubar(){
-        $q='';
+        $q = '';
+        $astring = '';
         if (isset($_REQUEST['q'])) {
             $q = $_REQUEST['q'];
         }
-        echo '<div class="menu"><form type="POST"><img src="img/pp_logo.png" height=45px><input type="text" name="q" id="q" placeholder="'.$GLOBALS['OVERLAY_SEARCH'].'" value="'.$q.'"><input type="button" value="'.$GLOBALS['BUTTON_CREATE'].'" onclick="newfile()"/><input type="button" value="'.$GLOBALS['BUTTON_LOGOUT'].'"  onclick="logout()"></form></div><div class="menuspacer"></div>';
+        if (!$GLOBALS['WEBSITE_PUBLIC']) {
+            $astring = '<input type="button" value="'.$GLOBALS['BUTTON_LOGOUT'].'"  onclick="logout()">';
+        }
+        echo '<div class="menu"><form type="POST"><img src="img/pp_logo.png" height=45px><input type="text" name="q" id="q" placeholder="'.$GLOBALS['OVERLAY_SEARCH'].'" value="'.$q.'"><input type="button" value="'.$GLOBALS['BUTTON_CREATE'].'" onclick="newfile()"/>'.$astring.'</form></div><div class="menuspacer"></div>';
     }
     function editor() {
-        echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><select name="admin" id="admin"><option>0</option><option>1</option></select><br><center><textarea id="content" name="content"></textarea></center><input type="submit" value="senden"></form></div>';
+        echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><select name="admin" id="admin"><option>0</option><option>1</option></select><br><center><textarea id="content" name="content"></textarea></center><input type="submit" value="'.$GLOBALS['BUTTON_SAVE'].'"></form></div>';
     }
-    function error($string) {
-        echo '<font color=#F00>'.$string.'</font>';
+    function window($title,$string) {
+        echo '<br><br><br> <div class="window"><div class="title">'.$title.'</div>'.$string.'</div>';
     }

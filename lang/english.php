@@ -20,6 +20,7 @@
     $GLOBALS['BUTTON_LOGIN'] = 'Log in';
     $GLOBALS['BUTTON_REGISTER'] = 'Register';
     $GLOBALS['BUTTON_CREATE'] = 'Create new document';
+    $GLOBALS['BUTTON_DELETE'] = 'Delete document (Permanent!)';
     
     //OVERLAY AND INPUT
     $GLOBALS['OVERLAY_USERNAME'] = 'Username';

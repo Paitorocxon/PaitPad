@@ -64,7 +64,7 @@
                     $_SESSION['admin'] = $row['admin'];
                     $_SESSION['actions'] = $row['actions'];
                     $_SESSION['id'] = $row['id'];
-                    $_SESSION['ip'] = $row['ip'];
+                    $_SESSION['ip'] = getUserIP();
                     $_SESSION['passwordreset'] = $row['passwordreset'];
                     $_SESSION['email'] = $row['email'];
                     return 1;

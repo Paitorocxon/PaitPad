@@ -19,9 +19,7 @@
 
 
     function askSQL($string){//Look for content that contains the $string in it
-        if (!$_SESSION['admin']) {
-            error('Admin=0');
-        }
+
         global $PDO;
         $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
         $sql = "SELECT * FROM paitpad_docs";
@@ -68,11 +66,26 @@
         $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
         $sql = "SELECT * FROM paitpad_docs where id=".htmlspecialchars($id);
         foreach ($pdo->query($sql) as $row) {
+            if ($row['admin'] == 1) {
+                if ($_SESSION['admin'] == 1) {
+                    echo '<div class="document"><p class="title">'.$row['title'].'</p><br>';
+                    echo $row['content'].'<hr class="hr">';
+                    echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
+                    echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
+                    echo '['.$row['username'].']<br /> <a href="?del='.$id.'">'.$GLOBALS['BUTTON_DELETE'].'</a></div>';
+                } else {
+                    error('0x001');
+                }
+                
+            } else {
                 echo '<div class="document"><p class="title">'.$row['title'].'</p><br>';
                 echo $row['content'].'<hr class="hr">';
                 echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
                 echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
-                echo '['.$row['username'].']<br /></div>';
+                echo '['.$row['username'].']<br /> <a href="?del='.$id.'">'.$GLOBALS['BUTTON_DELETE'].'</a></div>';
+                
+            }
+
         }
         
     }
@@ -83,7 +96,7 @@
             $conn = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
             
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = 'INSERT INTO paitpad_docs (username,content,title,admin) VALUES ("'.htmlspecialchars($_SESSION['username']).'","'.$content.'","'.$title.'",'.$admin.')';
+            $sql = 'INSERT INTO paitpad_docs (username,content,title,admin) VALUES ("'.htmlspecialchars($_SESSION['username']).'","'.htmlspecialchars($content).'","'.htmlspecialchars($title).'",'.htmlspecialchars($admin).')';
 
             $conn->exec($sql);
             return  $GLOBALS['OVERLAY_SAVED'];
@@ -92,17 +105,23 @@
         }
     }
     function delSQL($id){
-        global $PDO;
-        try {
-            $conn = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
-            
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = 'DELETE FROM paitpad_docs WHERE id="'.htmlspecialchars($id).'"';
+        if ($_SESSION['admin'] == 0) {
+            if ($GLOBALS['SECURITY_ONLYADMINCANDELETE']) {
+                error('0x002');
+            }
+        } else {
+            global $PDO;
+            try {
+                $conn = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+                
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $sql = 'DELETE FROM paitpad_docs WHERE id="'.htmlspecialchars($id).'"';
 
-            $conn->exec($sql);
-            return  $GLOBALS['OVERLAY_DELETED'];
-        }catch(PDOException $e){
-            return  $GLOBALS['OVERLAY_ERROR_WHILE_DELETING'];
+                $conn->exec($sql);
+                return  $GLOBALS['OVERLAY_DELETED'];
+            }catch(PDOException $e){
+                return  $GLOBALS['OVERLAY_ERROR_WHILE_DELETING'];
+            }
         }
     }
     

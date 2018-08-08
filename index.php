@@ -1,5 +1,4 @@
 ﻿<?php
-
 /**
 *
 *   @title:     PaitPad
@@ -8,9 +7,11 @@
 *   @version:   1.0
 *   
 */
+
 session_start();
 require_once('grabwutever.php');
 require_once('conf.php');
+
 if (file_exists('lang/'.$GLOBALS['WEBSITE_LANGUAGE'].'.php')) {
     require_once('lang/'.$GLOBALS['WEBSITE_LANGUAGE'].'.php');
 }
@@ -18,7 +19,7 @@ if (file_exists('lang/'.$GLOBALS['WEBSITE_LANGUAGE'].'.php')) {
 
 
 //######Functions
-
+fuckdizfuckers();
 head();
 
 
@@ -33,6 +34,16 @@ if (!$GLOBALS['WEBSITE_PUBLIC']) {
     } elseif (isset($_REQUEST['l']) && $_REQUEST['l']=='ogout') {
         logout();
     }
+} else {
+    session_destroy();
+    $_SESSION['username'] = getUserIP();
+    $_SESSION['password'] = '';
+    $_SESSION['admin'] = 1;
+    $_SESSION['actions'] = 0;
+    $_SESSION['id'] = 999999999999999999;
+    $_SESSION['ip'] = getUserIP();
+    $_SESSION['passwordreset'] = 0;
+    $_SESSION['email'] = '';
 }
 
 menubar();

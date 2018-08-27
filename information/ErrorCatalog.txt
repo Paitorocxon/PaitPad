@@ -1,12 +1,19 @@
 ==ErrorCatalog==
 This is a list of all possible Errors dropped BY paitpad.
 
+
+//Permission errors
 0x001 : No permissions to read that document.
 0x002 : No permissions to delete that document.
+0x003 : No permissions to edit that document.
 
 
-
-
-
+//Manipulation errors
 1x001 : $_REQUEST['admin'] was probably manipulated.
 1x002 : $_REQUEST['del'] was probably manipulated.
+
+
+//Runtime errors
+2x001:  'function putSQL' has some problems
+2x002:  'function updateSQL' has some problems
+2x003:  'function delSQL' has some problems

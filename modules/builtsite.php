@@ -34,6 +34,7 @@
         echo '    <BODY>'."\n";
     }
     function body_end(){
+        echo "\n".'    <div class="bottom">Powered by PaitPad. Copyright © 2018 by Fabian Müller</div>'."\n";
         echo "\n".'    </BODY>'."\n";
     }
     function loginUI(){
@@ -51,7 +52,11 @@
         echo '<div class="menu"><form type="POST"><img src="img/pp_logo.png" height=45px><input type="text" name="q" id="q" placeholder="'.$GLOBALS['OVERLAY_SEARCH'].'" value="'.$q.'"><input type="button" value="'.$GLOBALS['BUTTON_CREATE'].'" onclick="newfile()"/>'.$astring.'</form></div><div class="menuspacer"></div>';
     }
     function editor() {
-        echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><select name="admin" id="admin"><option>0</option><option>1</option></select><br><center><textarea id="content" name="content"></textarea></center><input type="submit" value="'.$GLOBALS['BUTTON_SAVE'].'"></form></div>';
+        if (!isset($_REQUEST['edit'])){
+            echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><select name="admin" id="admin"><option>0</option><option>1</option></select><br><center><textarea id="content" name="content"></textarea></center><input type="submit" value="'.$GLOBALS['BUTTON_SAVE'].'"></form></div>';
+        } else {
+            echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" value="'.getTitleSQL($_REQUEST['edit']).'" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><input type="hidden" id="id" name="id" value="'.htmlspecialchars($_REQUEST['edit']).'" ><select name="admin" id="admin"><option>0</option><option>1</option></select><br><center><textarea id="content" name="content">'.getContentSQL($_REQUEST['edit']).'</textarea></center><input type="submit" value="'.$GLOBALS['BUTTON_SAVE'].'"></form></div>';
+        }
     }
     function window($title,$string) {
         echo '<br><br><br> <div class="window"><div class="title">'.$title.'</div>'.$string.'</div>';

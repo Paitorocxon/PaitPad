@@ -15,3 +15,4 @@ require_once('modules/sqlshit.php');
 require_once('modules/login.php');
 require_once('modules/builtsite.php');
 require_once('modules/information.php');
+require_once('modules/watchdog.php');

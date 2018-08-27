@@ -17,6 +17,12 @@ if (isset($_REQUEST['error'])) {
         die('The [admin]-request was manipulated!');
     } elseif ($error == '1x002') {
         die('The [del]-request was manipulated!');
+    } elseif ($error == '2x001') {
+        die('function "putSQL" did not worked well');
+    } elseif ($error == '2x002') {
+        die('function "updateSQL" did not worked well');
+    } elseif ($error == '2x003') {
+        die('function "delSQL" did not worked well');
     } else {
         die("<h1>Whoops!</h1><br>'".$error."' was not found in the error catalog! :/ sowwy?");
     }

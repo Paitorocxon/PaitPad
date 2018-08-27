@@ -12,8 +12,19 @@
 
     function error($string) {
         $allReqs = 'REQUESTS:';
+        $allVars = 'DEFINED VARIABLES:';
+        $allHeader = 'Header:';
+        if (!isset($GLOBALS['WEBSITE_ERRORFACE'])) {
+            $GLOBALS['WEBSITE_ERRORFACE'] = '';
+        }
         foreach ($_REQUEST as $reqName => $reqValue) {
            $allReqs .= '['.$reqName.'='.$reqValue.'] '; 
+        }
+        foreach (get_defined_vars() as $varName => $varValue) {
+           $allVars .= '['.$varName.'='.$varValue.'] '; 
+        }
+        foreach (getallheaders() as $headerName => $headerValue) {
+           $allHeader .= '['.$headerName.'='.$headerValue.'] '; 
         }
         
         
@@ -21,11 +32,11 @@
         if (file_exists($errorlog)) {
             $errorcontent = file_get_contents($errorlog);
             $errorhandle = fopen($errorlog, 'w') or die('uhm... the error handler has... an error? What da heck? chmod 777 -R to the paitpad folder?');
-            $data = $errorcontent . "\n" . "\n" . 'X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X' .  "\n" . "\n" . $string . ' dropped by ' . $_SESSION['username'] . '('.$_SESSION['ip'].') @ ' . date("Y-m-d h:i:sa") . "\n" . '===============' . "\n" . $allReqs . "\n" . '===============';
+            $data = $errorcontent . "\n" . "\n" . 'X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X=X' .  "\n" . "\n" . $string . ' dropped by ' . $_SESSION['username'] . '('.$_SESSION['ip'].') @ ' . date("Y-m-d h:i:sa") . "\n" . '===============' . "\n" . $allReqs . "\n" . '===============' . "\n" . $allVars . "\n" . '===============' . "\n" . $allHeader . "\n" . '===============' . "\n" . watchdog() . "\n" . '===============';
             fwrite($errorhandle, $data);
         } else {
-            $errorhandle = fopen($errorlog, 'w') or die('Error while creating the... uhm error file o.O! (' . $errorlog . ') What da heck? chmod 777 -R to the paitpad folder?');
-            $data = $string . ' dropped by ' . $_SESSION['username'] . '('.$_SESSION['ip'].') @ ' . date("Y-m-d h:i:sa") . "\n" . '===============' . "\n" . $allReqs . "\n" . '===============';
+            $errorhandle = fopen($errorlog, 'w') or die('Error while creating the... uhm... error file o.O! (' . $errorlog . ') What da heck? chmod 777 -R to the paitpad folder?');
+            $data = $string . ' dropped by ' . $_SESSION['username'] . '('.$_SESSION['ip'].') @ ' . date("Y-m-d h:i:sa") . "\n" . '===============' . "\n" . $allReqs . "\n" . '===============' . "\n" . $allVars . "\n" . '===============' . "\n" . $allHeader . "\n" . '===============' . "\n" . watchdog() . "\n" . '===============';
             fwrite($errorhandle, $data);
         }
 

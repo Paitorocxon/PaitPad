@@ -18,6 +18,9 @@ if (file_exists('lang/'.$GLOBALS['WEBSITE_LANGUAGE'].'.php')) {
 
 
 
+//die(print_r($_REQUEST));
+
+
 //######Functions
 fuckdizfuckers();
 head();
@@ -56,10 +59,14 @@ if (isset($_REQUEST['q']) && strlen($_REQUEST['q'])> 2) {
     
     askSQL($_REQUEST['q']);
     
-} elseif (isset($_REQUEST['id'])) {
-    
-    getSQL($_REQUEST['id']);
-    
+} elseif (isset($_REQUEST['content']) && isset($_REQUEST['title']) && isset($_REQUEST['id'])) {
+    if (isset($_REQUEST['admin'])) {
+        if ($_SESSION['admin'] == 1) {
+            echo updateSQL($_REQUEST['content'],$_REQUEST['title'],$_REQUEST['admin'],$_REQUEST['id']); 
+        }
+    } else {            
+        echo updateSQL($_REQUEST['content'],$_REQUEST['title'],0,$_REQUEST['id']); 
+    }
 } elseif (isset($_REQUEST['content']) && isset($_REQUEST['title'])) {
     if (isset($_REQUEST['admin'])) {
         if ($_SESSION['admin']) {
@@ -69,11 +76,17 @@ if (isset($_REQUEST['q']) && strlen($_REQUEST['q'])> 2) {
         echo putSQL($_REQUEST['content'],$_REQUEST['title'],0);         
     }
     
+} elseif (isset($_REQUEST['id'])) {
+    
+    getSQL($_REQUEST['id']);
+    
 } elseif (isset($_REQUEST['del'])) {
     echo delSQL($_REQUEST['del']); 
 } elseif (isset($_REQUEST['message'])) {
     echo $_REQUEST['message']; 
 } elseif (isset($_REQUEST['c'])) {
+    editor(); 
+} elseif (isset($_REQUEST['edit'])) {
     editor(); 
 } else {
 }

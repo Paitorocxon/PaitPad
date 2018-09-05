@@ -16,3 +16,5 @@ require_once('modules/login.php');
 require_once('modules/builtsite.php');
 require_once('modules/information.php');
 require_once('modules/watchdog.php');
+require_once('modules/webpais.php');
+require_once('modules/info.php');

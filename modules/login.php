@@ -80,7 +80,10 @@
     
     
         function register() {
-        
+        if (getUserSQL($_REQUEST['username']) == 0){
+            header('Refresh:2; url='.$_SERVER['PHP_SELF']);
+            die('<div class="document">Username is not available! :/</div>');
+        }
         if ($_REQUEST['password'] == $_REQUEST['passwordconf']) {
             global $PDO;
             $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);

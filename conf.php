@@ -8,6 +8,7 @@
 *   
 **/ 
 
+
 // DATABASE CONFIG
 $GLOBALS['DATABASE_HOST'] = 'localhost';
 $GLOBALS['DATABASE_NAME'] = 'paitpad';
@@ -25,7 +26,7 @@ $GLOBALS['WEBSITE_PUBLIC'] = false;
 //  $GLOBALS['WEBSITE_ERRORFACE'] = '(≖︿≖✿)';
 //  $GLOBALS['WEBSITE_ERRORFACE'] = '(ﾉಥ益ಥ）ﾉ ┻━┻';
 //  $GLOBALS['WEBSITE_ERRORFACE'] = '¯\_(ツ)_/¯';
-//  $GLOBALS['WEBSITE_ERRORFACE'] = '(✖﹏✖)';
+    $GLOBALS['WEBSITE_ERRORFACE'] = '(✖﹏✖)';
 //  $GLOBALS['WEBSITE_ERRORFACE'] = 'ಥ⌣ಥ';
 //  $GLOBALS['WEBSITE_ERRORFACE'] = 'ლ(́◉◞౪◟◉‵ლ)';
 //  $GLOBALS['WEBSITE_ERRORFACE'] = 'щ(ಠ益ಠщ)';
@@ -38,4 +39,9 @@ $GLOBALS['META_DESCRIPTION'] = 'PaitPad';
 
 //SECURITY CONFIG
 $GLOBALS['SECURITY_ONLYADMINCANDELETE'] = true;
+
+
+//WEBCRAWLER CONFIG
+$GLOBALS['WEBCRAWLER_REVISITE'] = '10 days';
+$GLOBALS['WEBCRAWLER_KEYWORDS'] = 'PaitPad Paitorocxon Notepad Documentation Tool';
 

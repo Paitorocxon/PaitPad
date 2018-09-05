@@ -9,19 +9,19 @@ body {
     background-attachment: fixed;
     
 }
-
-
 .document {
     background-color: rgba(20,20,20,0.9);
     box-shadow: 2px 2px 8px #000;
     margin: 100px;
     color: #888;
+    word-wrap:break-word;
 }
 .result {
     background-color: rgba(20,20,20,0.9);
     color: #AAA;
     margin: 8px;
     box-shadow: 2px 2px 8px #000;
+	overflow-x:hidden;
 }
 .title {
     margin: 0px;
@@ -79,7 +79,6 @@ a:link,:visited {
     text-shadow: 1px 1px 1px;
     border: 1px solid #000;
 }
-
 .window  textarea{
     background: rgba(20,20,20,0.8);
     color: #DA0;
@@ -120,6 +119,45 @@ a:link,:visited {
     z-index: 1000000;
     width: 100%;
     background: rgba(20,20,20,0.8);
+}
+.bottom:hover {
+    color: transparent;
+    position: fixed;
+    left: 0px;
+    z-index: 1000000;
+    width: 100%;
+    background: rgba(20,20,20,0.0);
+}
+
+.userdisplay {
+    color: #DA0;
+    position: fixed;
+    right: 0px;
+    top: 45px;
+    z-index: 2000000;
+    background: rgba(20,20,20,0.9);
+    width: 80px;
+    height: 80px;
+    border-radius: 0px 0px 0px 10px;
+}
+
+.admin {
+    color: red;
+}
+
+.innerin{
+    background-color: #FFF;
+    color: transparent;
+    text-shadow: 0px 2px 3px rgba(0,0,0,0.5);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+}
+td {
+    color: #FFF;
+    background-color: rgba(20,20,20,0.5);
+    border: 10px solid transparent;
+    padding: 20px;
 }
 admin{
     color: #F00;

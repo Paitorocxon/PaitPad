@@ -162,3 +162,14 @@ td {
 admin{
     color: #F00;
 }
+
+.parallax {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color:transparent;
+    height:100%;
+    margin: 0px;
+    padding: 0px;
+}

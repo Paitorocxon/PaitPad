@@ -37,13 +37,17 @@
         return $ip;
     }
 
-
+	function comparedIdentitys(){
+		return 'mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'];
+	}
+		
+	
 
     function login() {
         
         if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
             global $PDO;
-            $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+            $pdo = new PDO(comparedIdentitys(), $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
             $sql = "SELECT password FROM paitpad_members where username like'".$_SESSION['username']."'";
             foreach ($pdo->query($sql) as $row) {
                 if (trim(paitCryption($_SESSION['password'])) == $row['password']){
@@ -54,7 +58,7 @@
             }
         } elseif (isset($_REQUEST['username']) && isset($_REQUEST['password']) AND !isset($_REQUEST['passwordconf']) && !isset($_REQUEST['email'])) {
             global $PDO;
-            $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+            $pdo = new PDO(comparedIdentitys(), $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
             $sql = "SELECT id,password,admin,actions,ip,email,passwordreset FROM paitpad_members where username like'".htmlspecialchars($_REQUEST['username'])."'";
             foreach ($pdo->query($sql) as $row) {
  
@@ -80,28 +84,28 @@
     
     
         function register() {
-        if (getUserSQL($_REQUEST['username']) == 0){
-            header('Refresh:2; url='.$_SERVER['PHP_SELF']);
-            die('<div class="document">Username is not available! :/</div>');
-        }
+        
         if ($_REQUEST['password'] == $_REQUEST['passwordconf']) {
             global $PDO;
-            $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+            $pdo = new PDO(comparedIdentitys(), $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
             $sql = 'select  username from paitpad_members where username like "'.$_REQUEST['username'].'%"';
             foreach ($pdo->query($sql) as $row) {
                 if (isset($row['username'])) {
-                    header('Refresh:0; url=index.php?message=username not available');
+                    //header('Refresh:0; url=index.php?message=username not available');
+                    echo '<meta http-equiv="refresh" content="0; url="index.php?message=username not available" />';  
                 }
             }
             try {
-                $conn = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+                $conn = new PDO(comparedIdentitys(), $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql = 'INSERT INTO paitpad_members (username,email,passwordreset,password,ip,admin,actions) VALUES ("'.htmlspecialchars($_REQUEST['username']).'","'.htmlspecialchars($_REQUEST['email']).'",0,"'.paitCryption(htmlspecialchars($_REQUEST['password'])).'","'.getUserIP().'",0,0)';
                 $conn->exec($sql);
                 echo  $GLOBALS['OVERLAY_SAVED'];
-                header('Refresh:0; url=index.php');
-            }catch(PDOException $e){                
-                header('Refresh:0; url=index.php?message=' . $GLOBALS['OVERLAY_ERROR_WHILE_SAVING']);
+                //header('Refresh:0; url=index.php');
+                echo '<meta http-equiv="refresh" content="0; url="index.php" />';
+            }catch(PDOException $e){              
+                echo '<meta http-equiv="refresh" content="0; url="index.php?message='.$GLOBALS['OVERLAY_ERROR_WHILE_SAVING'].'" />';  
+                //header('Refresh:0; url=index.php?message=' . );
             }
         } else {
             error('Incomplete!');
@@ -112,7 +116,6 @@
     
     function logout(){
         session_destroy();
-        header('Refresh:0; url=index.php');
     }
     
     

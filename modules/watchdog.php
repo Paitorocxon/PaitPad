@@ -9,14 +9,15 @@
 */
 
 
-    function watchdog(){
+    function watchdog(){/*
         $ip = $_SERVER['REMOTE_ADDR'];
         $information = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$ip));
         $infomationPack = 'PERSONAL INFORMATION:';
         foreach($information as $inf=>$infkey) {
             $infomationPack .= '['.$inf.'='.$infkey.']';
         }
-        return $infomationPack;
+        return $infomationPack;*/
+	return '';
     }
     
     

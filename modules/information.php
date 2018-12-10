@@ -22,4 +22,7 @@
         
     }
     
+	
+	//Sneaky! Paitpadversion! he he he!
+	$GLOBALS['PAITPAD_VERSION'] = 1;
     

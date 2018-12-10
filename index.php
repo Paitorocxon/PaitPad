@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
 *
 *   @title:     PaitPad
@@ -11,9 +11,14 @@
 session_start([
     'cookie_lifetime' => 86400,
 ]);
-set_time_limit(0);
+
 require_once('grabwutever.php');
 require_once('conf.php');
+
+
+$_SESSION['test'] = 'SESSION VARIABLE IS DECLARED!';
+
+
 
 
 if (file_exists('lang/'.$GLOBALS['WEBSITE_LANGUAGE'].'.php')) {
@@ -34,7 +39,9 @@ if (!$GLOBALS['WEBSITE_PUBLIC']) {
             die ('<center>'.loginUI().'</center>');
         }
     } elseif (isset($_REQUEST['l']) && $_REQUEST['l']=='ogout') {
+		echo '<meta http-equiv="refresh" content="0; url="?log=in" />';
         logout();
+		die();
     }
 } else {
     session_destroy();
@@ -48,13 +55,24 @@ if (!$GLOBALS['WEBSITE_PUBLIC']) {
     $_SESSION['email'] = '';
 }
 
+
 menubar();
 
 body_start();
 
 countSQL();
 
-if (isset($_REQUEST['q']) && strlen($_REQUEST['q'])> 2) {
+
+
+
+if(isset($_REQUEST['ccc'])){
+	if ($_SESSION['admin'] == 1) {
+		if(isset($_REQUEST['id']) && isset($_REQUEST['newemail']) && isset($_REQUEST['willBeAdmin']) && isset($_REQUEST['willBePasswortreset'])){
+			upgradeUser($_REQUEST['id'],$_REQUEST['newemail'],$_REQUEST['willBePasswortreset'],$_REQUEST['willBeAdmin']);
+		}
+	}
+
+}elseif (isset($_REQUEST['q']) && strlen($_REQUEST['q'])> 2) {
     askSQL($_REQUEST['q']);
 } elseif (isset($_REQUEST['content']) && isset($_REQUEST['title']) && isset($_REQUEST['id'])) {
     if (isset($_REQUEST['admin'])) {
@@ -81,7 +99,9 @@ if (isset($_REQUEST['q']) && strlen($_REQUEST['q'])> 2) {
 } elseif (isset($_REQUEST['c'])) {
     editor(); 
 } elseif (isset($_REQUEST['edit'])) {
-    editor();  
+    editor();
+} elseif (isset($_REQUEST['administration'])) {
+    administration();  
 } elseif (isset($_REQUEST['info'])) {
     if ($_SESSION['admin'] == 1){
         echo '<div class="document"><div class="title">Docs</div>';
@@ -113,4 +133,6 @@ if (isset($_REQUEST['q']) && strlen($_REQUEST['q'])> 2) {
 //CREATE DOCUMENT = CONTENT/TITLE/ADMIN
 //DELETE DOCUMENT = DEL=ID
 //READ DOCUMENT = ID=ID
+
+
 body_end();

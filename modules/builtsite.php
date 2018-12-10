@@ -33,7 +33,12 @@
         echo '        <script type="text/javascript">function logout() { window.location.href = "?l=ogout";}</script>';
         echo '        <script type="text/javascript">function refreshtoindex() { window.location.href = "index.php";}</script>';
         echo '        <script type="text/javascript">function newfile() { window.location.href = "?c=reate";}</script>';
-        echo '        <script type="text/javascript">function infopage() { window.location.href = "?info=gimmediz";}</script>';
+		
+
+			echo '        <script type="text/javascript">function infopage() { window.location.href = "?info=gimmediz";}</script>';
+			echo '        <script type="text/javascript">function admin() { window.location.href = "?administration=jepp";}</script>';
+
+		
         echo '    </HEAD>'."\n";
     }
     function body_start(){
@@ -49,7 +54,7 @@
         echo "\n".'    </BODY>'."\n";
     }
     function loginUI(){
-        return '<br><br><br> <div class="window"><div class="title">'.$GLOBALS['BUTTON_LOGIN'].'</div><form method="POST"><input type="text" id="username" name="username" placeholder="'.$GLOBALS['OVERLAY_USERNAME'].'"/><br><input type="password" id="password" name="password" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><br><input type="submit" value="'.$GLOBALS['BUTTON_LOGIN'].'"></form></div>            <br><br><br>              <div class="window"><div class="title">'.$GLOBALS['BUTTON_REGISTER'].'</div><form method="POST"><input type="text" id="username" name="username" placeholder="'.$GLOBALS['OVERLAY_USERNAME'].'"/><br><input type="email" name="email" id="email" placeholder="email"/> <br><input type="password" id="password" name="password" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><input type="password" id="passwordconf" name="passwordconf" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><br><input type="submit" id="sub" name="sub" value="'.$GLOBALS['BUTTON_REGISTER'].'"></form></div>';
+        return '<br><br><br> <div class="window"><div class="title">'.$GLOBALS['BUTTON_LOGIN'].'</div><form method="POST"><input type="text" id="username" name="username" placeholder="'.$GLOBALS['OVERLAY_USERNAME'].'"/><br><input type="password" id="password" name="password" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><br><input type="submit" value="'.$GLOBALS['BUTTON_LOGIN'].'"></form></div>            <br><br><br>              <div class="window"><div class="title">'.$GLOBALS['BUTTON_REGISTER'].'</div><form method="POST" action="index.php"><input type="text" id="username" name="username" placeholder="'.$GLOBALS['OVERLAY_USERNAME'].'"/><br><input type="email" name="email" id="email" placeholder="email"/> <br><input type="password" id="password" name="password" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><input type="password" id="passwordconf" name="passwordconf" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><br><input type="submit" id="sub" name="sub" value="'.$GLOBALS['BUTTON_REGISTER'].'"></form></div>';
     }
     function menubar(){
         $infobut = '';
@@ -62,7 +67,7 @@
             $astring = ' <input type="button" value="'.$GLOBALS['BUTTON_LOGOUT'].'"  onclick="logout()">';
         }
         if ($_SESSION['admin'] == 1) {
-            $infobut = '<input type="button" onclick="infopage();" value="Info">';
+            $infobut = '<input type="button" onclick="infopage();" value="Info"> <input type="button" onclick="admin();" value="Adminpanel">';
         }
         echo '<div class="menu"><form type="POST"><a href="'.$_SERVER['PHP_SELF'].'"><img src="img/pp_logo.png" height=45px></a><input type="text" name="q" id="q" placeholder="'.$GLOBALS['OVERLAY_SEARCH'].'" value="'.$q.'"> <input type="button" value="'.$GLOBALS['BUTTON_CREATE'].'" onclick="newfile()"/>'.$astring.' '.$infobut.'</form></div><div class="menuspacer"></div>';
     }
@@ -76,3 +81,7 @@
     function window($title,$string) {
         echo '<br><br><br> <div class="window"><div class="title">'.$title.'</div>'.$string.'</div>';
     }
+	
+	
+
+	

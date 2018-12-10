@@ -6,6 +6,7 @@ This is a list of all possible Errors dropped BY paitpad.
 0x001 : No permissions to read that document.
 0x002 : No permissions to delete that document.
 0x003 : No permissions to edit that document.
+0x004 : No permissions to view/use the adminpanel
 
 
 //Manipulation errors

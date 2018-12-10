@@ -13,6 +13,20 @@
         echo '<h1 class="innerin">'.$GLOBALS['WEBSITE_TITLE'].'</h1>'."\n";
         echo '<table style="width:100%">'."\n";
         echo '    <tr>'."\n";
+        echo '        <td>PaitPad Version</td>'."\n";
+        echo '        <td>'.$GLOBALS['PAITPAD_VERSION'].'</td>'."\n";
+		if (file_get_contents('https://raw.githubusercontent.com/Paitorocxon/PaitPad/master/versioncode.vr') > $GLOBALS['PAITPAD_VERSION']) {
+			echo '        <td>Your PaitPad version (<font color=red>Outdated!</font>)</td>'."\n";
+		} else {
+			echo '        <td>Your PaitPad version (<font color=lime>Up to date!</font>)</td>'."\n";
+		}		
+        echo '    </tr>'."\n";
+        echo '    <tr>'."\n";
+        echo '        <td>PHP_SELF</td>'."\n";
+        echo '        <td>'.$_SERVER['PHP_SELF'].'</td>'."\n";
+        echo '        <td>Path to paitpad\'s index.php</td>'."\n";
+        echo '    </tr>'."\n";
+		echo '    <tr>'."\n";
         echo '        <td>PHP-Version</td>'."\n";
         echo '        <td>'.phpversion().'</td>'."\n";
         echo '        <td>Your PHP version</td>'."\n";

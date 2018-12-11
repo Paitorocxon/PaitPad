@@ -1,0 +1,171 @@
+body {
+    background-color: #888;
+    font-family: Sans-serif;
+    font-size: 14px;
+
+}
+.document {
+    background-color: #FFF;
+    margin: 100px;
+    color: #000;
+    word-wrap:break-word;
+}
+.result {
+    background-color: #FFF;
+    color: #AAA;
+    margin: 8px;
+	overflow-x:hidden;
+}
+.title {
+    margin: 0px;
+    background-color: #F77;
+    height: 25px;
+    color: #FFF;
+    font-size: 20px;
+}
+a:link,:visited {
+    color: #000;
+    text-decoration: none;
+}
+.hr {
+    color: #AAF;
+}
+
+table {
+	height: 100%;
+	width: 100%;
+}
+td {
+    width: 50%;
+	max-width: 50%;
+	height: 100%;
+}
+.editView{
+	height: 100%;
+    width: 100%;
+	background-color: transparent;
+}
+.menu {
+    background: #F77;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    height: 45px;
+    margin: 0px;
+}
+.menu input {
+	background-color: transparent;
+    color: #FFF;
+	font-weight: bold;
+    position: relative;
+    height: 20px;
+    top: -10px;
+
+    border: 0px solid #000;
+}
+.menuspacer {
+    height: 45px;
+}
+
+.window {
+    background-color: #FFF;
+
+    width: 200px;
+	color: #000;
+}
+.window  input{
+	background-color: transparent;
+    color: #000;
+    height: 20px;
+    width: 50%;
+
+    border: 1px solid #000;
+}
+.window  select{
+	background-color: transparent;
+    color: #000;
+    height: 20px;
+
+    border: 1px solid #000;
+}
+.window  textarea{
+    background: rgba(20,20,20,0.8);
+    color: #000;
+    height: 400px;
+    width: 99%;
+    margin: 1px;
+
+    resize: vertical;
+    border: 1px solid #000;
+}
+
+::selection {
+  background: #000;
+  color: #000;
+}
+::-moz-selection {
+  background: #000;
+  color: #000;
+}
+
+.button{
+    height: 400px;
+    width: 99%;
+    margin: 1px;
+
+    resize: vertical;
+    border: 1px solid #000;
+}
+.normalsize {
+    width: 100%;
+    height: 100%;
+}
+.bottom {
+    color: #000;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1000000;
+    width: 100%;
+    background: #FFF;
+}
+.bottom:hover {
+    color: transparent;
+    position: fixed;
+    left: 0px;
+    z-index: 1000000;
+    width: 100%;
+    background: rgba(20,20,20,0.0);
+}
+
+.userdisplay {
+    pointer-events: none;
+    color: #000;
+    position: fixed;
+    right: 0px;
+    top: 45px;
+    z-index: 2000000;
+    background: #F77;
+    width: 126px;
+    height: 80px;
+    border-radius: 0px 0px 0px 10px;
+}
+.admin {
+    color: Yellow;
+	font-weight: bold;
+}
+.innerin{
+    background-color: #FFF;
+    color: transparent;
+
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+}
+td {
+    color: #FFF;
+    background-color: rgba(20,20,20,0.5);
+    border: 10px solid transparent;
+    padding: 20px;
+}

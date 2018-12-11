@@ -43,6 +43,10 @@ if (isset($_REQUEST['error'])) {
         die('function "comparedIdentitys" did not worked well');
     } elseif ($error == '2x011') {
         die('exception: "UserDidntReadInstructionsException"<br>function "login" fucked up! Check your config.php file... wtf, dude!');
+    } elseif ($error == '2x012') {
+        die('function "getActionsSQL" did not worked well');
+    } elseif ($error == '2x013') {
+        die('function "userPlusPlusSQL" did not worked well');
     } else {
         die("<h1>Whoops!</h1><br>'".$error."' was not found in the error catalog! :/ sowwy?");
     }

@@ -23,4 +23,8 @@ This is a list of all possible Errors dropped BY paitpad.
 2x006:	'function getContentSQL' has some problems
 2x007:	'function getTitleSQL' has some problems
 2x008:	'function getAdminSQL' has some problems
-2x009:	'function getAdminSQL' has some problems
+2x009:	'function getUserIP' has some problems
+2x010:	'function comparedIdentitys' has some problems
+2x011:	'exception: "UserDidntReadInstructionsException" function "login" fucked up! Check your config.php file... wtf, dude!
+2x012:	'function getActionsSQL' has some problems
+2x013:	'function userPlusPlusSQL' has some problems

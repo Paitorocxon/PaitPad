@@ -142,6 +142,20 @@
 		}
         
     }
+	    
+    function getActionsSQL($string){
+		try {
+			global $PDO;
+			$pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+			$sql = "SELECT actions FROM paitpad_members where username=".htmlspecialchars($string);
+			foreach ($pdo->query($sql) as $row) {
+				return $row['actions'];
+			}	
+		} catch (Exception $ex){
+			error('2x0012');
+		}
+        
+    }
     
     
     
@@ -155,10 +169,11 @@
                 $sql = 'INSERT INTO paitpad_docs (username,content,title,admin) VALUES ("'.htmlspecialchars($_SESSION['username']).'","'.htmlspecialchars(webpaisEnc($content)).'","'.htmlspecialchars(webpaisEnc($title)).'",'.htmlspecialchars($admin).')';
 
                 $conn->exec($sql);
-                return  $GLOBALS['OVERLAY_SAVED'];
+				userPlusPlusSQL($_SESSION['username']);
+                return  centerWindow('System',$GLOBALS['OVERLAY_SAVED']);
             }catch(PDOException $e){
                 error('2x001');
-                return  $GLOBALS['OVERLAY_ERROR_WHILE_SAVING'];
+                return  centerWindow('System',$GLOBALS['OVERLAY_ERROR_WHILE_SAVING']);
             }
        
     }
@@ -170,19 +185,35 @@
         if (getAdminSQL($id) == 0 OR getAdminSQL($id)== 1 && $_SESSION['admin'] == 1){
             try {
                 $conn = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
-                
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql = 'UPDATE paitpad_docs SET content=\''.htmlspecialchars(webpaisEnc($content)).'\', title=\''.htmlspecialchars(webpaisEnc($title)).'\', admin=\''.htmlspecialchars($admin).'\' WHERE id=\''.htmlspecialchars($id).'\';';
 
                 $conn->exec($sql);
-                return  $GLOBALS['OVERLAY_SAVED'];
+                return  centerWindow('System',$GLOBALS['OVERLAY_SAVED']);
             }catch(PDOException $e){
                 error('2x002');
-                return  $GLOBALS['OVERLAY_ERROR_WHILE_SAVING'];
+                return  centerWindow('System',$GLOBALS['OVERLAY_ERROR_WHILE_SAVING']);
             }
         } else {
             error('0x003');
         }
+    }    
+	
+    function userPlusPlusSQL($string){
+        global $PDO;
+            try {
+                $conn = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+				$COUNT = getActionsSQL($string);
+				$COUNT++;
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $sql = 'UPDATE paitpad_members SET actions=\''.htmlspecialchars($COUNT).'\' WHERE username=\''.htmlspecialchars($string).'\';';
+
+                $conn->exec($sql);
+                return  centerWindow('System',$GLOBALS['OVERLAY_SAVED']);
+            }catch(PDOException $e){
+                error('2x0013');
+                return  centerWindow('System',$GLOBALS['OVERLAY_ERROR_WHILE_SAVING']);
+            }
     }
     
     
@@ -201,10 +232,10 @@
                 $sql = 'DELETE FROM paitpad_docs WHERE id="'.htmlspecialchars($id).'"';
 
                 $conn->exec($sql);
-                return  $GLOBALS['OVERLAY_DELETED'];
+                return  centerWindow('System',$GLOBALS['OVERLAY_DELETED']);
             }catch(PDOException $e){
                 error('2x003');
-                return  $GLOBALS['OVERLAY_ERROR_WHILE_DELETING'];
+                return  centerWindow('System',$GLOBALS['OVERLAY_ERROR_WHILE_DELETING']);
             }
         }
     }

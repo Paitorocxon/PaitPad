@@ -30,6 +30,8 @@
         echo '        <meta name="keywords" content="'.$GLOBALS['WEBCRAWLER_KEYWORDS'].'">'."\n";
         echo '        <link rel="stylesheet" type="text/css" href="'.$GLOBALS['WEBSITE_STYLESHEET'].'">'."\n";
         echo '        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>'."\n";
+        echo '        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>'."\n";
+        echo '        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>'."\n";
         echo '        <script type="text/javascript">function logout() { window.location.href = "?l=ogout";}</script>'."\n";
         echo '        <script type="text/javascript">function refreshtoindex() { window.location.href = "index.php";}</script>'."\n";
         echo '        <script type="text/javascript">function newfile() { window.location.href = "?c=reate";}</script>'."\n";
@@ -90,6 +92,12 @@
     }
     function window($title,$string) {
         echo '<br><br><br> <div class="window"><div class="title">'.$title.'</div>'.$string.'</div>';
+    }
+	function centerWindow($title,$string) {
+        echo '<br><br><br> <center><div class="window"><div class="title">'.$title.'</div>'.$string.'<br><a href="index.php">Home</a></div></center>';
+    }
+	function help() {
+        echo '<br><br><br> <center><div class="window"><div class="title">'.$title.'</div>'.$string.'<br><a href="index.php">Home</a></div></center>';
     }
 	
 	

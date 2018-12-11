@@ -29,16 +29,14 @@
         echo '        <meta name="revisit" content="after '.$GLOBALS['WEBCRAWLER_REVISITE'].'">'."\n";
         echo '        <meta name="keywords" content="'.$GLOBALS['WEBCRAWLER_KEYWORDS'].'">'."\n";
         echo '        <link rel="stylesheet" type="text/css" href="'.$GLOBALS['WEBSITE_STYLESHEET'].'">'."\n";
-        echo '        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>';
-        echo '        <script type="text/javascript">function logout() { window.location.href = "?l=ogout";}</script>';
-        echo '        <script type="text/javascript">function refreshtoindex() { window.location.href = "index.php";}</script>';
-        echo '        <script type="text/javascript">function newfile() { window.location.href = "?c=reate";}</script>';
-		
-
-			echo '        <script type="text/javascript">function infopage() { window.location.href = "?info=gimmediz";}</script>';
-			echo '        <script type="text/javascript">function admin() { window.location.href = "?administration=jepp";}</script>';
-
-		
+        echo '        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>'."\n";
+        echo '        <script type="text/javascript">function logout() { window.location.href = "?l=ogout";}</script>'."\n";
+        echo '        <script type="text/javascript">function refreshtoindex() { window.location.href = "index.php";}</script>'."\n";
+        echo '        <script type="text/javascript">function newfile() { window.location.href = "?c=reate";}</script>'."\n";
+		echo '        <script type="text/javascript">function refresh(){$("#editView").load("viewme.php?content=" + encodeURI($("#content").val()));} window.setInterval( function(){refresh();}, 1000);</script>'."\n";
+		echo '        <script type="text/javascript">function infopage() { window.location.href = "?info=gimmediz";}</script>'."\n";
+		echo '        <script type="text/javascript">function admin() { window.location.href = "?administration=jepp";}</script>'."\n";
+		echo '        <script type="text/javascript">function addCSS() { var head = document.head; var link = document.createElement("link"); link.type="text/css"; link.rel="stylesheet"; link.href=$("#selectStyleCSS").val(); head.appendChild(link)}</script>'."\n";
         echo '    </HEAD>'."\n";
     }
     function body_start(){
@@ -56,6 +54,7 @@
     function loginUI(){
         return '<br><br><br> <div class="window"><div class="title">'.$GLOBALS['BUTTON_LOGIN'].'</div><form method="POST"><input type="text" id="username" name="username" placeholder="'.$GLOBALS['OVERLAY_USERNAME'].'"/><br><input type="password" id="password" name="password" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><br><input type="submit" value="'.$GLOBALS['BUTTON_LOGIN'].'"></form></div>            <br><br><br>              <div class="window"><div class="title">'.$GLOBALS['BUTTON_REGISTER'].'</div><form method="POST" action="index.php"><input type="text" id="username" name="username" placeholder="'.$GLOBALS['OVERLAY_USERNAME'].'"/><br><input type="email" name="email" id="email" placeholder="email"/> <br><input type="password" id="password" name="password" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><input type="password" id="passwordconf" name="passwordconf" placeholder="'.$GLOBALS['OVERLAY_PASSWORD'].'"/><br><input type="submit" id="sub" name="sub" value="'.$GLOBALS['BUTTON_REGISTER'].'"></form></div>';
     }
+
     function menubar(){
         $infobut = '';
         $q = '';
@@ -72,10 +71,21 @@
         echo '<div class="menu"><form type="POST"><a href="'.$_SERVER['PHP_SELF'].'"><img src="img/pp_logo.png" height=45px></a><input type="text" name="q" id="q" placeholder="'.$GLOBALS['OVERLAY_SEARCH'].'" value="'.$q.'"> <input type="button" value="'.$GLOBALS['BUTTON_CREATE'].'" onclick="newfile()"/>'.$astring.' '.$infobut.'</form></div><div class="menuspacer"></div>';
     }
     function editor() {
-        if (!isset($_REQUEST['edit'])){
-            echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><select name="admin" id="admin"><option>0</option><option>1</option></select><br><center><textarea id="content" name="content" maxlength="44444"></textarea></center><input type="submit" value="'.$GLOBALS['BUTTON_SAVE'].'"></form></div>';
+
+	if (!isset($_REQUEST['edit'])){
+	
+			
+            echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><select name="admin" id="admin"><option value="0">Every one can edit or delete this document</option><option value="1">Only Admins can edit or delete this document</option></select><br><center><table><tr><td><textarea id="content" name="content" maxlength="44444"></textarea></td><td style="height: 100%"><div id="editView" class="editView"></div></td></tr></table></center><input type="submit" value="'.$GLOBALS['BUTTON_SAVE'].'"></form></div>';
         } else {
-            echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" value="'.getTitleSQL($_REQUEST['edit']).'" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><input type="hidden" id="id" name="id" value="'.htmlspecialchars($_REQUEST['edit']).'" ><select name="admin" id="admin"><option>0</option><option>1</option></select><br><center><textarea id="content" name="content" maxlength="44444">'.getContentSQL($_REQUEST['edit']).'</textarea></center><input type="submit" value="'.$GLOBALS['BUTTON_SAVE'].'"></form></div>';
+
+			if (getAdminSQL($_REQUEST['edit']) != 1){
+				$optValOne = 'selected';
+				$optValTwo = '';
+			} else {
+				$optValOne = '';
+				$optValTwo = 'selected';
+			}
+			echo '<div class="window normalsize"><div class="title">'.$GLOBALS['BUTTON_CREATE'].'</div><form method="POST"><input type="text" id="title" name="title" value="'.getTitleSQL($_REQUEST['edit']).'" placeholder="'.$GLOBALS['OVERLAY_TITLE'].'"><input type="hidden" id="id" name="id" value="'.htmlspecialchars($_REQUEST['edit']).'" ><select name="admin" id="admin"><option value="0" '.$optValOne.'>Every one can edit or delete this document</option><option value="1" '.$optValTwo.'>Only Admins can edit or delete this document</option></select><br><center><table width=100%><tr><td><textarea id="content" name="content" maxlength="44444">'.getContentSQL($_REQUEST['edit']).'</textarea></td><td style="height: 100%"><div id="editView" class="editView"></div></td></tr></table></center><input type="submit" value="'.$GLOBALS['BUTTON_SAVE'].'"></form></div>';
         }
     }
     function window($title,$string) {

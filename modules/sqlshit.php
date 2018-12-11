@@ -19,108 +19,127 @@
 
 
     function askSQL($string){//Look for content that contains the $string in it
-
-        global $PDO;
-        $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
-        $sql = "SELECT * FROM paitpad_docs";
-        $i = 0;
-        foreach ($pdo->query($sql) as $row) {
-            $i++;
-            if (strpos(strtolower(' '.webpaisDec($row['content'])),strtolower(trim($string))) OR strpos(strtolower(' '.webpaisDec($row['title'])),strtolower(trim($string))) OR strpos(strtolower(' '.$row['id']),strtolower(trim($string))) OR strpos(strtolower(' '.webpaisDec($row['username'])),strtolower(trim($string)))){
-                if ($row['admin'] == 1) {
-                    if ($_SESSION['admin'] == 1) {
-                        echo '<div class="result">';
-                        echo '<div class="title"><a href="?id=' . $row['id'].'">['.$row['id'].'] '.webpaisDec($row['title']).'</a></div>';
-                        //Trim the string to a length of 200
-                        $row['content'] = webpaisDec($row['content']);
-                        if (strlen($row['content']) > 200){
-                            $offset = (200 - 3) - strlen($row['content']);
-                            $row['content'] = substr($row['content'], 0, strrpos($row['content'], ' ', $offset)) . '...';
-                        }
-                        echo $row['content'] .'<br />';
-                        echo  $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
-                        echo  $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
-                        echo  '['.$row['username'].']<br /></div>';
-                    }
-                } else {
-                    echo '<div class="result">';
-                    echo '<div class="title"><a href="?id=' . $row['id'].'">['.$row['id'].'] '.$row['title'].'</a></div>';
-                    //Trim the string to a length of 200
-                    if (strlen($row['content']) > 200){
-                        $offset = (200 - 3) - strlen($row['content']);
-                        $row['content'] = substr($row['content'], 0, strrpos($row['content'], ' ', $offset)) . '...';
-                    }
-                    echo $row['content'] .'<br />';
-                    echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
-                    echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
-                    echo '['.$row['username'].']<br /></div>';
-                }
-            }
-            
-        }
-        
+		try {
+			global $PDO;
+			$pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+			$sql = "SELECT * FROM paitpad_docs";
+			$i = 0;
+			foreach ($pdo->query($sql) as $row) {
+				$i++;
+				if (strpos(strtolower(' '.webpaisDec($row['content'])),strtolower(trim($string))) OR strpos(strtolower(' '.webpaisDec($row['title'])),strtolower(trim($string))) OR strpos(strtolower(' '.$row['id']),strtolower(trim($string))) OR strpos(strtolower(' '.webpaisDec($row['username'])),strtolower(trim($string)))){
+					if ($row['admin'] == 1) {
+						if ($_SESSION['admin'] == 1) {
+							echo '<div class="result">';
+							echo '<div class="title"><a href="?id=' . $row['id'].'">['.$row['id'].'] '.webpaisDec($row['title']).'</a></div>';
+							//Trim the string to a length of 200
+							$row['content'] = webpaisDec($row['content']);
+							if (strlen($row['content']) > 200){
+								$offset = (200 - 3) - strlen($row['content']);
+								$row['content'] = substr($row['content'], 0, strrpos($row['content'], ' ', $offset)) . '...';
+							}
+							echo $row['content'] .'<br />';
+							echo  $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
+							echo  $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
+							echo  '['.$row['username'].']<br /></div>';
+						}
+					} else {
+						echo '<div class="result">';
+						echo '<div class="title"><a href="?id=' . $row['id'].'">['.$row['id'].'] '.$row['title'].'</a></div>';
+						//Trim the string to a length of 200
+						if (strlen($row['content']) > 200){
+							$offset = (200 - 3) - strlen($row['content']);
+							$row['content'] = substr($row['content'], 0, strrpos($row['content'], ' ', $offset)) . '...';
+						}
+						echo $row['content'] .'<br />';
+						echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
+						echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
+						echo '['.$row['username'].']<br /></div>';
+					}
+				}
+				
+			}
+		} catch (Exception $ex){
+			error('2x004');
+		}
     }
     
     function getSQL($id){
-        // do yu no da wey bradda?
-        global $PDO;
-        $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
-        $sql = "SELECT * FROM paitpad_docs where id=".htmlspecialchars($id);
-        foreach ($pdo->query($sql) as $row) {
-            if ($row['admin'] == 1) {
-                if ($_SESSION['admin'] == 1) {
-                    echo '<div class="document"><p class="title"><admin>'.webpaisDec($row['title']).'</admin> | <a href="?edit='.$id.'">['.$GLOBALS['BUTTON_EDIT'].']</a></p><br>';
-                    echo webpaisDec($row['content']).'<hr class="hr">';
-                    echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
-                    echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
-                    echo '['.$row['username'].']<br /> <a href="?del='.$id.'">'.$GLOBALS['BUTTON_DELETE'].'</a></div>';
-                } else {
-                    error('0x001');
-                }
-                
-            } else {
-                echo '<div class="document"><p class="title">'.webpaisDec($row['title']).' | <a href="?edit='.$id.'">['.$GLOBALS['BUTTON_EDIT'].']</a></p><br>';
-                echo webpaisDec($row['content']).'<hr class="hr">';
-                echo str_word_count($row['content']).' words <br>';
-                echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
-                echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
-                echo '['.$row['username'].']<br /> <a href="?del='.$id.'">'.$GLOBALS['BUTTON_DELETE'].'</a></div>';
-                
-            }
+		try {
+			// do yu no da wey bradda?
+			global $PDO;
+			$pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+			$sql = "SELECT * FROM paitpad_docs where id=".htmlspecialchars($id);
+			foreach ($pdo->query($sql) as $row) {
+				if ($row['admin'] == 1) {
+					if ($_SESSION['admin'] == 1) {
+						echo '<div class="document"><p class="title"><admin>'.webpaisDec($row['title']).'</admin> | <a href="?edit='.$id.'">['.$GLOBALS['BUTTON_EDIT'].']</a></p><br>';
+						echo webpaisDec($row['content']).'<hr class="hr">';
+						echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
+						echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
+						echo '['.$row['username'].']<br /> <a href="?del='.$id.'">'.$GLOBALS['BUTTON_DELETE'].'</a></div>';
+					} else {
+						error('0x001');
+					}
+					
+				} else {
+					echo '<div class="document"><p class="title">'.webpaisDec($row['title']).' | <a href="?edit='.$id.'">['.$GLOBALS['BUTTON_EDIT'].']</a></p><br>';
+					echo webpaisDec($row['content']).'<hr class="hr">';
+					echo str_word_count($row['content']).' words <br>';
+					echo $GLOBALS['OVERLAY_DOCUMENT_CREATED'] . $row['date_created'].'<br />';
+					echo $GLOBALS['OVERLAY_DOCUMENT_EDITED'] . $row['date_edited'].'<br />';
+					echo '['.$row['username'].']<br /> <a href="?del='.$id.'">'.$GLOBALS['BUTTON_DELETE'].'</a></div>';
+					
+				}
 
-        }
+			}
         
+		} catch (Exception $ex){
+			error('2x005');
+		}
     }
     
     
     function getContentSQL($id){
-        // do yu no da wey bradda?
-        global $PDO;
-        $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
-        $sql = "SELECT content FROM paitpad_docs where id=".htmlspecialchars($id);
-        foreach ($pdo->query($sql) as $row) {
-                return $row['content'];
-        }
+		try{
+			// do yu no da wey bradda?
+			global $PDO;
+			$pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+			$sql = "SELECT content FROM paitpad_docs where id=".htmlspecialchars($id);
+			foreach ($pdo->query($sql) as $row) {
+					return $row['content'];
+			}
+			
+		} catch (Exception $ex){
+			error('2x006');
+		}
     }
     
     
     function getTitleSQL($id){
-        global $PDO;
-        $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
-        $sql = "SELECT title FROM paitpad_docs where id=".htmlspecialchars(webpaisDec($id));
-        foreach ($pdo->query($sql) as $row) {
-            return $row['title'];
-        }
+		try {
+			global $PDO;
+			$pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+			$sql = "SELECT title FROM paitpad_docs where id=".htmlspecialchars(webpaisDec($id));
+			foreach ($pdo->query($sql) as $row) {
+				return $row['title'];
+			}	
+		} catch (Exception $ex){
+			error('2x007');
+		}
         
     }
     
     function getAdminSQL($id){
-        global $PDO;
-        $pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
-        $sql = "SELECT admin FROM paitpad_docs where id=".htmlspecialchars($id);
-        foreach ($pdo->query($sql) as $row) {
-            return $row['admin'];
-        }
+		try {
+			global $PDO;
+			$pdo = new PDO('mysql:host='.$GLOBALS['DATABASE_HOST'].';dbname='.$GLOBALS['DATABASE_NAME'], $GLOBALS['DATABASE_USERNAME'], $GLOBALS['DATABASE_PASSWORD']);
+			$sql = "SELECT admin FROM paitpad_docs where id=".htmlspecialchars($id);
+			foreach ($pdo->query($sql) as $row) {
+				return $row['admin'];
+			}	
+		} catch (Exception $ex){
+			error('2x008');
+		}
         
     }
     

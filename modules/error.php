@@ -42,3 +42,5 @@
 
         window('<b>ERROR!</b>','<a href="errorcatalog.php?error='.$string.'">Error: '.$string.'</a><br><font color=#F00>'.$GLOBALS['WEBSITE_ERRORFACE'].'</font>');
     }
+	
+	

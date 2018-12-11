@@ -27,6 +27,22 @@ if (isset($_REQUEST['error'])) {
         die('function "updateSQL" did not worked well');
     } elseif ($error == '2x003') {
         die('function "delSQL" did not worked well');
+    } elseif ($error == '2x004') {
+        die('function "askSQL" did not worked well');
+    } elseif ($error == '2x005') {
+        die('function "getSQL" did not worked well');
+    } elseif ($error == '2x006') {
+        die('function "getContentSQL" did not worked well');
+    } elseif ($error == '2x007') {
+        die('function "getTitleSQL" did not worked well');
+    } elseif ($error == '2x008') {
+        die('function "getAdminSQL" did not worked well');
+    } elseif ($error == '2x009') {
+        die('function "getUserIP" did not worked well');
+    } elseif ($error == '2x010') {
+        die('function "comparedIdentitys" did not worked well');
+    } elseif ($error == '2x011') {
+        die('exception: "UserDidntReadInstructionsException"<br>function "login" fucked up! Check your config.php file... wtf, dude!');
     } else {
         die("<h1>Whoops!</h1><br>'".$error."' was not found in the error catalog! :/ sowwy?");
     }

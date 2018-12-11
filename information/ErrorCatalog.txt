@@ -18,3 +18,9 @@ This is a list of all possible Errors dropped BY paitpad.
 2x001:  'function putSQL' has some problems
 2x002:  'function updateSQL' has some problems
 2x003:  'function delSQL' has some problems
+2x004:	'function aksSQL' has some problems
+2x005:	'function getSQL' has some problems
+2x006:	'function getContentSQL' has some problems
+2x007:	'function getTitleSQL' has some problems
+2x008:	'function getAdminSQL' has some problems
+2x009:	'function getAdminSQL' has some problems

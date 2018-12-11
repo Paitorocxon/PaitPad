@@ -36,6 +36,21 @@ a:link,:visited {
 .hr {
     color: #AAF;
 }
+
+table {
+	height: 100%;
+	width: 100%;
+}
+td {
+    width: 50%;
+	max-width: 50%;
+	height: 100%;
+}
+.editView{
+	height: 100%;
+    width: 100%;
+	background-color: transparent;
+}
 .menu {
     background: rgba(20,20,20,0.9);
     position: fixed;
@@ -129,21 +144,20 @@ a:link,:visited {
 }
 
 .userdisplay {
+    pointer-events: none;
     color: #DA0;
     position: fixed;
     right: 0px;
     top: 45px;
     z-index: 2000000;
     background: rgba(20,20,20,0.9);
-    width: 80px;
+    width: 126px;
     height: 80px;
     border-radius: 0px 0px 0px 10px;
 }
-
 .admin {
     color: red;
 }
-
 .innerin{
     background-color: #FFF;
     color: transparent;
@@ -157,7 +171,4 @@ td {
     background-color: rgba(20,20,20,0.5);
     border: 10px solid transparent;
     padding: 20px;
-}
-admin{
-    color: #F00;
 }

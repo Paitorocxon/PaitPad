@@ -15,9 +15,7 @@ session_start([
 require_once('grabwutever.php');
 require_once('conf.php');
 
-
 $_SESSION['test'] = 'SESSION VARIABLE IS DECLARED!';
-
 
 
 
@@ -27,7 +25,11 @@ if (file_exists('lang/'.$GLOBALS['WEBSITE_LANGUAGE'].'.php')) {
 
 //######Functions
 fuckdizfuckers();
+
+
+
 head();
+
 
 
 if (!$GLOBALS['WEBSITE_PUBLIC']) {
@@ -39,7 +41,7 @@ if (!$GLOBALS['WEBSITE_PUBLIC']) {
             die ('<center>'.loginUI().'</center>');
         }
     } elseif (isset($_REQUEST['l']) && $_REQUEST['l']=='ogout') {
-		echo '<meta http-equiv="refresh" content="0; url="?log=in" />';
+		echo '<center><div class="window"><div class="title">Bye!</div><a href="index.php">Exit PaitPad</a></div></center>';
         logout();
 		die();
     }
@@ -56,12 +58,11 @@ if (!$GLOBALS['WEBSITE_PUBLIC']) {
 }
 
 
-menubar();
 
 body_start();
 
+menubar();
 countSQL();
-
 
 
 
@@ -101,7 +102,7 @@ if(isset($_REQUEST['ccc'])){
 } elseif (isset($_REQUEST['edit'])) {
     editor();
 } elseif (isset($_REQUEST['administration'])) {
-    administration();  
+    administration();
 } elseif (isset($_REQUEST['info'])) {
     if ($_SESSION['admin'] == 1){
         echo '<div class="document"><div class="title">Docs</div>';

@@ -15,17 +15,31 @@
 			error('0x004');
 		}
 		
+		echo '<br><br><br><center><div class="window"><div class="title">Stylesheets</div><form method="POST">Stylesheet:<select onchange="addCSS()" id="selectStyleCSS" name="selectStyleCSS">';
+		$files = glob('styles/*.{css,ppcss}', GLOB_BRACE);
+		foreach($files as $file) {
+			if ($file == $GLOBALS['WEBSITE_STYLESHEET']){
+				echo '<option value="'.$file.'" selected>'.$file.'</option>';
+			} else {
+				echo '<option value="'.$file.'">'.$file.'</option>';
+			}
+		}
+		echo '</select><input type="submit" value="Update"></form></div></center>';
 
 
 		
 		//Successfullllllllll! You are an admin!
-		echo '<br><br><br><center><div class="window"><div class="title">Adminpanel</div><font color="red">You can use * to show EVERY user (Critical! at own risk!)</font><form method="POST"><input type="text" id="username" name="username" placeholder="username"/><input type="submit" value="'.$GLOBALS['OVERLAY_SEARCH'].'"/></form><br></div></center>';
+		echo '<br><br><br><center><div class="window"><div class="title">User</div><font color="red">You can use * to show EVERY user (Critical! at own risk!)</font><form method="POST"><input type="text" id="username" name="username" placeholder="username"/><input type="submit" value="'.$GLOBALS['OVERLAY_SEARCH'].'"/></form><br></div></center>';
 		if (isset($_REQUEST['username'])){
 			if ($_REQUEST['username'] == '*'){
 				additionadminall();
 			} else {
 				additionadminsingle();
 			}
+		}
+		if (isset($_REQUEST['selectStyleCSS'])){
+				updateStyle(htmlspecialchars($_REQUEST['selectStyleCSS']));
+				
 		}
 		
 		
@@ -238,3 +252,84 @@
             }
  
     }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	function updateStyle($string) {
+		try {
+			$content = "";
+			$content .=  '<?php'."\n";
+			$content .=  '/** '."\n";
+			$content .=  '*   '."\n";
+			$content .=  '*   @title:     conf'."\n";
+			$content .=  '*   @author:    Paitorocxon (Fabian Müller)'."\n";
+			$content .=  '*   @created:   31.07.2018'."\n";
+			$content .=  '*   @version:   1.0'."\n";
+			$content .=  '*   '."\n";
+			$content .=  '**/ '."\n";
+			$content .=  "\n";
+			$content .=  'error_reporting(E_ERROR | E_PARSE);'."\n";
+			$content .=  "\n";
+			$content .=  '// DATABASE CONFIG'."\n";
+			$content .=  '$GLOBALS[\'DATABASE_HOST\'] = \''.$GLOBALS['DATABASE_HOST'].'\';'."\n";
+			$content .=  '$GLOBALS[\'DATABASE_NAME\'] = \''.$GLOBALS['DATABASE_NAME'].'\';'."\n";
+			$content .=  '$GLOBALS[\'DATABASE_USERNAME\'] =  \''.$GLOBALS['DATABASE_USERNAME'].'\';'."\n";
+			$content .=  '$GLOBALS[\'DATABASE_PASSWORD\'] =  \''.$GLOBALS['DATABASE_PASSWORD'].'\';'."\n";
+			$content .=  "\n";
+			$content .=  '//WEBSITE CONFIG'."\n";
+			$content .=  '$GLOBALS[\'WEBSITE_TITLE\'] = \''.$GLOBALS['WEBSITE_TITLE'].'\';'."\n";
+			$content .=  '$GLOBALS[\'WEBSITE_LANGUAGE\'] = \''.$GLOBALS['WEBSITE_LANGUAGE'].'\';'."\n";
+			$content .=  '$GLOBALS[\'WEBSITE_STYLESHEET\'] = \''.$string.'\';'."\n";
+			
+			if ($GLOBALS['WEBSITE_PUBLIC'] == false) {
+				$content .=  '$GLOBALS[\'WEBSITE_PUBLIC\'] = false;'."\n";
+			} else {
+				$content .=  '$GLOBALS[\'WEBSITE_PUBLIC\'] = true;'."\n";
+			}
+			
+			$content .=  "\n";
+			$content .=  "\n";
+			$content .=  '//META CONFIG'."\n";
+			$content .=  '$GLOBALS[\'META_AUTHOR\'] = \''.$GLOBALS['META_AUTHOR'].'\';'."\n";
+			$content .=  '$GLOBALS[\'META_PUBLISHER\'] = \''.$GLOBALS['META_PUBLISHER'].'\';'."\n";
+			$content .=  '$GLOBALS[\'META_COPYRIGHT\'] = \''.$GLOBALS['META_COPYRIGHT'].'\';'."\n";
+			$content .=  '$GLOBALS[\'META_DESCRIPTION\'] = \''.$GLOBALS['META_DESCRIPTION'].'\';'."\n";
+			$content .=  "\n";
+			$content .=  '//WEBCRAWLER'."\n";
+			$content .=  '$GLOBALS[\'WEBCRAWLER_REVISITE\'] = \''.$GLOBALS['WEBCRAWLER_REVISITE'].'\';'."\n";
+			$content .=  '$GLOBALS[\'WEBCRAWLER_KEYWORDS\'] = \''.$GLOBALS['WEBCRAWLER_KEYWORDS'].'\';'."\n";
+			$content .=  "\n";
+			$content .=  "\n";
+			$content .=  '//SECURITY CONFIG'."\n";
+			$content .=  '$GLOBALS[\'SECURITY_ONLYADMINCANDELETE\'] = '.$GLOBALS['SECURITY_ONLYADMINCANDELETE'].';'."\n";
+
+			
+			$file = fopen("conf.php","w");
+			fwrite($file,$content);
+			fclose($file);
+			
+			}catch (Exception $ex) {
+			
+			error('error while writing!<br><br><h1>'.$ex.'</h1>');
+		}
+		return 'Successfully updated stylsheet!';
+	}
